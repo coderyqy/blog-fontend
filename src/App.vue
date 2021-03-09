@@ -2,12 +2,14 @@
   <div id="app">
     <!-- <div id="nav">
       <router-link to="/"></router-link>
-    </div> -->
-    <router-view/>
+    </div>-->
+    <transition name="bounce">
+      <router-view />
+    </transition>
   </div>
 </template>
 
 <style>
-@import "./assets/css/base.css";
-@import "./assets/css/element.css";
+@import './assets/css/base.css';
+@import './assets/css/element.css';
 </style>
