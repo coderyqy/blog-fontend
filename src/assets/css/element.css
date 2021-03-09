@@ -1,0 +1,25 @@
+/* 修改element元素的样式 */
+
+.el-input__inner:focus{
+  border: 1px solid var(--theme-color);
+}
+.el-select .el-input.is-focus .el-input__inner {
+  border: 1px solid var(--theme-color);
+}
+.el-select .el-input__inner:focus {
+  border: 1px solid #DCDFE6;
+}
+
+/* 退出登录 icon */
+.el-icon-switch-button {
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.el-page-header {
+  height: 60px;
+  line-height: 60px;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px rgb(219, 219, 219);
+}

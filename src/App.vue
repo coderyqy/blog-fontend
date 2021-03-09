@@ -1,0 +1,13 @@
+<template>
+  <div id="app">
+    <!-- <div id="nav">
+      <router-link to="/"></router-link>
+    </div> -->
+    <router-view/>
+  </div>
+</template>
+
+<style>
+@import "./assets/css/base.css";
+@import "./assets/css/element.css";
+</style>
