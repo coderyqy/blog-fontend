@@ -2,13 +2,14 @@
   <div id="article">
     <div class="search">
       <div class="search-item">
-      <el-select v-model="value" placeholder="请选择">
-      <el-option v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-      </el-select>
+        <el-select v-model="value" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </div>
       <div class="search-item">
         <el-input v-model="input" placeholder="请输入内容"></el-input>
@@ -21,34 +22,16 @@
       </div>
     </div>
     <div class="main">
-      <el-table
-        :data="tableData"
-        stripe
-        style="width: 100%">
+      <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column prop="title" label="标题" width="180"></el-table-column>
 
-        <el-table-column
-          prop="title"
-          label="标题"
-          width="180">
-        </el-table-column>
-        
-        <el-table-column
-          prop="is_status"
-          label="状态"
-          width="180">
-          <template slot-scope="scope">
-            {{ scope.row.is_status == 0 ? '未发布' : '已发布'}}
-          </template>
+        <el-table-column prop="is_status" label="状态" width="180">
+          <template slot-scope="scope">{{ scope.row.is_status == 0 ? '未发布' : '已发布'}}</template>
         </el-table-column>
 
-        <el-table-column
-          prop="up"
-          label="创建时间"
-          width="180">
-        </el-table-column>
+        <el-table-column prop="createAt" label="创建时间" width="180"></el-table-column>
 
-        <el-table-column
-          label="操作">
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button class="delete" @click="$router.push(`/modifyArticle/${scope.row.id}`)">修改</el-button>
             <el-button class="stop" v-if="scope.row.is_status == 0">发布</el-button>
@@ -56,77 +39,84 @@
             <el-button class="delete">删除</el-button>
           </template>
         </el-table-column>
-
       </el-table>
     </div>
   </div>
 </template>
 
 <script>
-import { getAllArticle } from 'network/article';
+import vueQr from 'vue-qr'
+
+import { getAllArticle } from 'network/article'
 
 export default {
   name: "Article",
-  data() {
+  data () {
     return {
+      downloadData: {
+        url: 'http://www.baidu.com'
+      },
       input: "23156",
       options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: '',
-        tableData: [],
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: '',
+      tableData: [],
     }
+  },
+  components: {
+    vueQr
   },
   methods: {
-    async getAllArticle(){ // 获取所有文章
-      const con = await getAllArticle();
-      this.tableData = con.result[0];
-      console.log(con.result[0]);
+    async getAllArticle () { // 获取所有文章
+      const con = await getAllArticle()
+      this.tableData = con.result[0]
+      console.log(con.result[0])
     }
   },
-  created() {
-    this.getAllArticle();
+  created () {
+    this.getAllArticle()
   }
 }
 </script>
 
 <style scoped>
-  #article {
-    margin: 14px;
-  }
-  .search {
-    display: flex;
-    padding: 20px 0;
-    background-color: #fff;
-    box-shadow: 0px 0px 8px rgb(219, 219, 219);
-  }
-  .search .search-item {
-    margin-left: 12px;
-  }
-  .main {
-    margin-top: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 8px rgb(219, 219, 219);
-  }
-  .delete:hover{
-    background: rgb(245,139,68);
-    color:#fff
-  }
-  .stop:hover{
-    background: rgb(197, 69, 94);
-    color:#fff
-  }
+#article {
+  margin: 14px;
+}
+.search {
+  display: flex;
+  padding: 20px 0;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px rgb(219, 219, 219);
+}
+.search .search-item {
+  margin-left: 12px;
+}
+.main {
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px rgb(219, 219, 219);
+}
+.delete:hover {
+  background: rgb(245, 139, 68);
+  color: #fff;
+}
+.stop:hover {
+  background: rgb(197, 69, 94);
+  color: #fff;
+}
 </style>

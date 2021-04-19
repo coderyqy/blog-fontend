@@ -9,13 +9,13 @@
           <el-input v-model="articleTitle" class="article-title-inp" placeholder="请输入内容"></el-input>
         </div>
         <el-button type="primary" class="save-btn" @click="saveArticle">保存</el-button>
-      </div>  
+      </div>
     </el-card>
 
     <div class="editor">
-      <mavon-editor :toolbars="toolbars" v-model="value" style="height:700px;" ref="md"/>
+      <mavon-editor :toolbars="toolbars" v-model="value" style="height:700px;" ref="md" />
       <div class="upload">
-        <input type="file" name="" id="">
+        <input type="file" name id />
         <div>点击上传</div>
       </div>
     </div>
@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import { save } from 'network/article';
+import { save } from 'network/article'
 
 export default {
   name: "AddArticle",
-  data() {
+  data () {
     return {
       toolbars: {
         bold: true, // 粗体
@@ -73,31 +73,32 @@ export default {
   },
   methods: {
     //监听markdown变化
-    change(value, render) {
-      
+    change (value, render) {
+
     },
     //上传图片接口pos 表示第几个图片 
-    handleEditorImgAdd(pos , $file){
-      
+    handleEditorImgAdd (pos, $file) {
+
     },
-    handleEditorImgDel(){
-    
+    handleEditorImgDel () {
+
     },
-    async saveArticle() {
-      console.log(this.articleTitle,this.value);
-      const con = await save(this.articleTitle,this.value);
-      console.log('----返回的数据----');
-      console.log(con);
+    async saveArticle () {
+      console.log("123123123")
+      console.log(this.articleTitle, this.value)
+      const con = await save(this.articleTitle, this.value)
+      console.log('----返回的数据----')
+      console.log(con)
     },
-    handleRemove(file) {
-      console.log(file);
+    handleRemove (file) {
+      console.log(file)
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
     },
-    handleDownload(file) {
-      console.log(file);
+    handleDownload (file) {
+      console.log(file)
     }
   }
 }
@@ -117,21 +118,21 @@ export default {
   display: flex;
 }
 
-.save-btn{
+.save-btn {
   margin-left: auto;
 }
 
-.article-title{
+.article-title {
   display: flex;
   width: 550px;
   line-height: 32px;
   margin-left: 100px;
 }
-.article-title>span{
+.article-title > span {
   padding-right: 6px;
   font-size: 16px;
 }
-.article-title-inp{
+.article-title-inp {
   width: 450px;
 }
 </style>

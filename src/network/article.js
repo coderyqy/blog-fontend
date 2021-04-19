@@ -24,3 +24,14 @@ export function save (title, content) {
     }
   })
 }
+
+export function update (id, title, content) {
+  return request({
+    url: `/article/update/${id}`,
+    method: "post",
+    data: {
+      title,
+      content
+    }
+  })
+}

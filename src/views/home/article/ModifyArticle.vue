@@ -8,22 +8,22 @@
           <span>文章标题</span>
           <el-input v-model="articleTitle" class="article-title-inp" placeholder="请输入内容"></el-input>
         </div>
-        <el-button type="primary" class="save-btn" >保存</el-button>
+        <el-button type="primary" class="save-btn" @click="modify">确认修改</el-button>
       </div>
     </el-card>
 
     <div class="editor">
-      <mavon-editor :toolbars="toolbars" v-model="value" style="height:700px;" ref="md"/>
+      <mavon-editor :toolbars="toolbars" v-model="value" style="height:700px;" ref="md" />
     </div>
   </div>
 </template>
 
 <script>
-import { getArticle } from 'network/article';
+import { getArticle, update } from 'network/article'
 
 export default {
   name: "AddArticle",
-  data() {
+  data () {
     return {
       toolbars: {
         bold: true, // 粗体
@@ -67,23 +67,40 @@ export default {
   },
   methods: {
     //监听markdown变化
-    change(value, render) {
-      
+    change (value, render) {
+
     },
     //上传图片接口pos 表示第几个图片 
-    handleEditorImgAdd(pos , $file){
-      
+    handleEditorImgAdd (pos, $file) {
+
     },
-    handleEditorImgDel(){
-    
+    handleEditorImgDel () {
+
     },
-    async getArticle() {
-      const con = await getArticle(this.articleId);
-      console.log('----返回的数据----');
-      console.log(con);
+    async getArticle () {
+      const { result } = await getArticle(this.articleId)
+      console.log('----返回的数据----')
+      this.articleTitle = result[0].title
+      this.value = result[0].content
+      console.log(result[0].title)
+    },
+    async modify () {
+      console.log(this.articleId, this.articleTitle, this.value)
+      const result = await update(this.articleId, this.articleTitle, this.value)
+      console.log(result)
+      if (result.status == 200) {
+        this.$message({
+          message: result.message,
+          type: 'success'
+        })
+        this.$router.push("/article")
+      } else {
+        this.$message.error(result.message)
+      }
+
     }
   },
-  created() {
+  created () {
     this.getArticle()
   }
 }
@@ -103,21 +120,21 @@ export default {
   display: flex;
 }
 
-.save-btn{
+.save-btn {
   margin-left: auto;
 }
 
-.article-title{
+.article-title {
   display: flex;
   width: 550px;
   line-height: 32px;
   margin-left: 100px;
 }
-.article-title>span{
+.article-title > span {
   padding-right: 6px;
   font-size: 16px;
 }
-.article-title-inp{
+.article-title-inp {
   width: 450px;
 }
 </style>

@@ -1,50 +1,77 @@
 <template>
   <div id="home">
-    <div id="top">
-      <div class="logo">后台管理系统</div>
-      <div class="util">
-        <div class="logout">
-          <i class="el-icon-switch-button"></i>
+    <el-container class="home-container">
+      <el-header>
+        <div id="top">
+          <div class="logo">后台管理系统</div>
+          <div class="util">
+            <div class="logout">
+              <i class="el-icon-switch-button" @click="logout"></i>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="main">
-      <div id="menu">
-        <ul>
-          <li>
-            <img class="icon-img" src="@/assets/image/menu-icon/home-icon.png" alt />
-            <span class="menu-name">home</span>
-          </li>
-          <li @click="$router.push('/article')">
-            <img class="icon-img" src="@/assets/image/menu-icon/home-icon.png" alt />
-            <span class="menu-name">article</span>
-          </li>
-          <li @click="$router.push('/comment')">
-            <img class="icon-img" src="@/assets/image/menu-icon/home-icon.png" alt />
-            <span class="menu-name">comment</span>
-          </li>
-          <li>
-            <img class="icon-img" src="@/assets/image/menu-icon/home-icon.png" alt />
-            <span class="menu-name">chat</span>
-          </li>
-        </ul>
-      </div>
-      <div id="view">
-        <transition name="slide-fade">
-          <router-view />
-        </transition>
-      </div>
-    </div>
+      </el-header>
+      <el-container>
+        <el-aside width="200px">
+          <div id="menu">
+            <el-row class="tac">
+              <el-col>
+                <el-menu
+                  default-active="2"
+                  class="el-menu-vertical-demo"
+                  background-color="rgb(53, 64, 83)"
+                  text-color="#fff"
+                  active-text-color="#ffd04b"
+                >
+                  <el-menu-item index="1">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">首页资讯</span>
+                  </el-menu-item>
+                  <el-menu-item index="2" @click="$router.push('/article')">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">文章管理</span>
+                  </el-menu-item>
+                  <el-menu-item index="3" @click="$router.push('/comment')">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">评论管理</span>
+                  </el-menu-item>
+                  <el-menu-item index="4">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">聊天室</span>
+                  </el-menu-item>
+                </el-menu>
+              </el-col>
+            </el-row>
+          </div>
+        </el-aside>
+        <el-main>
+          <div id="view">
+            <transition name="slide-fade">
+              <router-view />
+            </transition>
+          </div>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Home"
+  name: "Home",
+  methods: {
+    logout () {
+      window.localStorage.clear()
+      this.$router.push("/adminLogin")
+    }
+  }
 }
 </script>
 
 <style scoped>
+#home {
+  height: 100%;
+}
 .slide-fade-enter-active {
   transition: all 1.2s ease;
 }
@@ -56,30 +83,25 @@ export default {
   transform: translateX(10px);
   opacity: 0;
 }
+.home-container {
+  height: 100%;
+}
+.el-header {
+  padding: 0;
+  height: 80px !important;
+}
 
-#home {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background: url('../../assets/image/bgimg2.jpg') no-repeat;
-  background-size: cover;
-}
-.main {
-  height: 100%;
-  display: flex;
-}
 #menu {
-  width: 200px;
-  height: 100%;
   color: #fff;
-  /* background-image: -webkit-linear-gradient(
-    rgba(191, 51, 78, 1) 54%,
-    rgba(0, 0, 0, 0)
-  ); */
+  height: 100%;
   background-color: rgb(53, 64, 83);
 }
+.el-main {
+  padding: 0;
+}
 #view {
-  flex: 1;
+  height: 600px;
+  overflow: auto;
   background-color: rgb(249, 249, 249);
 }
 #top {
@@ -102,10 +124,6 @@ export default {
   width: 700px;
   height: 80px;
   margin-left: auto;
-  /* background-image:linear-gradient(
-    to left,
-    rgba(191,51,78,1) 50%,
-    rgba(0,0,0,0)) */
 }
 #top .util .logout {
   height: 80px;
@@ -113,17 +131,7 @@ export default {
   margin-left: auto;
   margin-right: 30px;
 }
-ul li {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 20px 0;
-  padding-left: 10px;
-  font-size: 20px;
-}
-ul li:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
+
 .icon-img {
   width: 26px;
   height: 26px;
@@ -134,17 +142,7 @@ ul li:hover {
   text-align: center;
 }
 
-.test {
-  margin-left: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  width: 55px;
-  height: 55px;
-  background: linear-gradient(135deg, #323753 0%, #58608a 100%);
-  box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.25),
-    -3px -2px 20px rgba(255, 255, 255, 0.25);
-  border-radius: 13px;
+.el-menu-item:hover {
+  background: rgb(53, 64, 83) !important;
 }
 </style>
