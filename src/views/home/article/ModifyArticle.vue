@@ -13,13 +13,22 @@
     </el-card>
 
     <div class="editor">
-      <mavon-editor :toolbars="toolbars" v-model="value" style="height:700px;" ref="md" />
+      <mavon-editor
+        :toolbars="toolbars"
+        @imgAdd="handleEditorImgAdd"
+        @imgDel="handleEditorImgDel"
+        v-model="value"
+        style="height:700px;"
+        ref="md"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { getArticle, update } from 'network/article'
+import { uploadPicture } from 'network/file'
+import axios from 'axios'
 
 export default {
   name: "AddArticle",
@@ -71,11 +80,13 @@ export default {
 
     },
     //上传图片接口pos 表示第几个图片 
-    handleEditorImgAdd (pos, $file) {
-
+    async handleEditorImgAdd (pos, $file) {
+      var formData = new FormData()
+      formData.append('picture', $file)
+      await uploadPicture(formData, this.articleId)
     },
     handleEditorImgDel () {
-
+      console.log("图片接口")
     },
     async getArticle () {
       const { result } = await getArticle(this.articleId)
@@ -97,7 +108,6 @@ export default {
       } else {
         this.$message.error(result.message)
       }
-
     }
   },
   created () {

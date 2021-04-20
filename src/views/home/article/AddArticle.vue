@@ -72,6 +72,9 @@ export default {
     }
   },
   methods: {
+    uploadP () {
+
+    },
     //监听markdown变化
     change (value, render) {
 

@@ -45,7 +45,7 @@
           </div>
         </el-aside>
         <el-main>
-          <div id="view">
+          <div id="view" ref="mainview">
             <transition name="slide-fade">
               <router-view />
             </transition>
@@ -59,12 +59,27 @@
 <script>
 export default {
   name: "Home",
+  data () {
+    return {
+      clientHeight: '',
+    }
+  },
   methods: {
+    changeFixed () {                        //动态修改样式
+      this.clientHeight = document.documentElement.clientHeight
+      this.$refs.mainview.style.height = `${this.clientHeight - 80}px`
+    },
     logout () {
       window.localStorage.clear()
       this.$router.push("/adminLogin")
     }
-  }
+  },
+  created () {
+
+  },
+  mounted () {
+    this.changeFixed()
+  },
 }
 </script>
 
@@ -100,7 +115,6 @@ export default {
   padding: 0;
 }
 #view {
-  height: 600px;
   overflow: auto;
   background-color: rgb(249, 249, 249);
 }
