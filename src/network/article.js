@@ -14,24 +14,29 @@ export function getArticle (id) {
   })
 }
 
-export function save (title, content) {
+export function save (title, content, filename, mimetype) {
   return request({
     url: "/article/save",
     method: "post",
     data: {
       title,
-      content
+      content,
+      filename,
+      mimetype
     }
   })
 }
 
-export function update (id, title, content) {
+export function update (id, title, content, filename, mimetype) {
+  console.log(id, title, content, filename, mimetype)
   return request({
     url: `/article/update/${id}`,
     method: "post",
     data: {
       title,
-      content
+      content,
+      filename,
+      mimetype
     }
   })
 }

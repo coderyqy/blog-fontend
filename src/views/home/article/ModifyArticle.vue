@@ -11,29 +11,41 @@
         <el-button type="primary" class="save-btn" @click="modify">确认修改</el-button>
       </div>
     </el-card>
-
     <div class="editor">
       <mavon-editor
         :toolbars="toolbars"
         @imgAdd="handleEditorImgAdd"
         @imgDel="handleEditorImgDel"
         v-model="value"
-        style="height:700px;"
+        :style="{height: mdHeight}"
         ref="md"
       />
     </div>
+    <el-card class="box-card upload-card">
+      <el-upload
+        class="upload-demo"
+        action
+        :http-request="uploadMainImg"
+        :file-list="fileList"
+        list-type="picture"
+        :limit="1"
+      >
+        上传主图
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
+    </el-card>
   </div>
 </template>
 
 <script>
 import { getArticle, update } from 'network/article'
-import { uploadPicture } from 'network/file'
-import axios from 'axios'
+import { uploadPicture, uploadMainPicture } from 'network/file'
 
 export default {
   name: "AddArticle",
   data () {
     return {
+      mdHeight: "0px",
       toolbars: {
         bold: true, // 粗体
         italic: true, // 斜体
@@ -71,19 +83,30 @@ export default {
       },
       value: '',
       articleTitle: '',
-      articleId: this.$route.params.id
+      articleId: this.$route.params.id,
+      fileList: [],
+      mimetype: '',
+      filename: ''
     }
   },
   methods: {
+    changeMDHeight () {                        //动态修改样式
+      this.clientHeight = document.documentElement.clientHeight
+      // this.mdHeight = `${this.clientHeight - 210}px`
+      this.mdHeight = `${this.clientHeight - 410}px`
+    },
     //监听markdown变化
     change (value, render) {
 
     },
     //上传图片接口pos 表示第几个图片 
-    async handleEditorImgAdd (pos, $file) {
+    async handleEditorImgAdd (pos, file) {
       var formData = new FormData()
-      formData.append('picture', $file)
-      await uploadPicture(formData, this.articleId)
+      formData.append('picture', file)
+      // 保存图片
+      const result = await uploadPicture(formData, this.articleId)
+      // 替换文章图片的url
+      this.$refs.md.$img2Url(pos, result.imgUrl)
     },
     handleEditorImgDel () {
       console.log("图片接口")
@@ -93,11 +116,15 @@ export default {
       console.log('----返回的数据----')
       this.articleTitle = result[0].title
       this.value = result[0].content
-      console.log(result[0].title)
+      if (result[0].image) {
+        const itemImg = { name: result[0].image, url: `http://localhost:8888/article/theme/${result[0].image}` }
+        this.fileList.push(itemImg)
+      }
+      console.log(result)
     },
     async modify () {
-      console.log(this.articleId, this.articleTitle, this.value)
-      const result = await update(this.articleId, this.articleTitle, this.value)
+      console.log(this.articleTitle, this.value, this.filename, this.mimetype)
+      const result = await update(this.articleId, this.articleTitle, this.value, this.filename, this.mimetype)
       console.log(result)
       if (result.status == 200) {
         this.$message({
@@ -108,10 +135,30 @@ export default {
       } else {
         this.$message.error(result.message)
       }
+    },
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
+    async uploadMainImg (fileData) {
+      console.log("-------上传图片")
+      const { file } = fileData
+      var formData = new FormData()
+      formData.append('picture', file)
+      // 保存图片
+      const result = await uploadMainPicture(formData)
+      this.filename = result.imgUrl
+      this.mimetype = result.mimetype
+      // const item = {name:}
+      // this.fileList.push()
+      console.log(result)
     }
   },
   created () {
     this.getArticle()
+  },
+  mounted () {
+    this.changeMDHeight()
   }
 }
 </script>
@@ -123,11 +170,14 @@ export default {
 }
 
 .editor {
-  margin-top: 20px;
+  margin-top: 6px;
 }
 
 .top-card {
   display: flex;
+}
+.upload-card {
+  margin-top: 6px;
 }
 
 .save-btn {

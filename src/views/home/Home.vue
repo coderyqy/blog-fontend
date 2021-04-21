@@ -65,7 +65,7 @@ export default {
     }
   },
   methods: {
-    changeFixed () {                        //动态修改样式
+    changeMainViewHeight () {                        //动态修改样式
       this.clientHeight = document.documentElement.clientHeight
       this.$refs.mainview.style.height = `${this.clientHeight - 80}px`
     },
@@ -78,7 +78,7 @@ export default {
 
   },
   mounted () {
-    this.changeFixed()
+    this.changeMainViewHeight()
   },
 }
 </script>
