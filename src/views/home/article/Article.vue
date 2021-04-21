@@ -36,7 +36,7 @@
             <el-button class="delete" @click="$router.push(`/modifyArticle/${scope.row.id}`)">修改</el-button>
             <el-button class="stop" v-if="scope.row.is_status == 0">发布</el-button>
             <el-button class="stop" v-if="scope.row.is_status == 1">停止</el-button>
-            <el-button class="delete">删除</el-button>
+            <el-button class="delete" @click="deleteArticle(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -47,7 +47,7 @@
 <script>
 import vueQr from 'vue-qr'
 
-import { getAllArticle } from 'network/article'
+import { getAllArticle, deleteArticle } from 'network/article'
 
 export default {
   name: "Article",
@@ -85,6 +85,20 @@ export default {
       const con = await getAllArticle()
       this.tableData = con.result[0]
       console.log(con.result[0])
+    },
+    async deleteArticle (id) {
+      console.log(id)
+      const result = await deleteArticle(id)
+      if (result.status == 200) {
+        this.$message({
+          message: result.message,
+          type: 'success'
+        })
+        // 重新请求全部文章
+        this.getAllArticle()
+      } else {
+        this.$message.error(result.message)
+      }
     }
   },
   created () {

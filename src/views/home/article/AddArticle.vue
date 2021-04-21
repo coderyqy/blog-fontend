@@ -41,7 +41,7 @@
 
 <script>
 import { save } from 'network/article'
-import { uploadPicture, uploadMainPicture } from 'network/file'
+import { uploadPicture, uploadMainPicture, uploadAddPicture } from 'network/file'
 
 export default {
   name: "AddArticle",
@@ -111,8 +111,9 @@ export default {
       var formData = new FormData()
       formData.append('picture', file)
       // 保存图片
-      const result = await uploadPicture(formData, this.articleId)
+      const result = await uploadAddPicture(formData)
       // 替换文章图片的url
+      console.log(result)
       this.$refs.md.$img2Url(pos, result.imgUrl)
     },
     async saveArticle () {
