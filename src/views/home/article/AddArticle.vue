@@ -12,6 +12,13 @@
       </div>
     </el-card>
 
+    <el-card class="box-card upload-card">
+      <div style="display:flex">
+        <span style="padding-right: 10px">内容摘要</span>
+        <el-input type="textarea" style="width:88%" :rows="2" placeholder="请输入内容" v-model="condec"></el-input>
+      </div>
+    </el-card>
+
     <div class="editor">
       <mavon-editor
         :toolbars="toolbars"
@@ -21,6 +28,13 @@
         ref="md"
       />
     </div>
+
+    <el-card class="box-card upload-card">
+      选择标签
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox v-for="(label,index) in labelList" :label="label.name" :key="index"></el-checkbox>
+      </el-checkbox-group>
+    </el-card>
 
     <el-card class="box-card upload-card">
       <el-upload
@@ -42,6 +56,7 @@
 <script>
 import { save } from 'network/article'
 import { uploadPicture, uploadMainPicture, uploadAddPicture } from 'network/file'
+import { getAllLabel } from 'network/label'
 
 export default {
   name: "AddArticle",
@@ -82,15 +97,18 @@ export default {
         subfield: true, // 单双栏模式
         preview: true, // 预览
       },
-      value: '',
-      articleTitle: '',
+      value: '', // 富文本内容
+      articleTitle: '', // 文章标题
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false,
       mdHeight: '0px',
-      fileList: [],
-      mimetype: '',
-      imgUrl: ''
+      fileList: [], // 主图
+      mimetype: '', // 图片类型
+      imgUrl: '', // 后台传过来的主图地址
+      condec: '', // 内容摘要
+      labelList: [], // 标签列表
+      checkList: [] // 所选标签的列表
     }
   },
   methods: {
@@ -116,10 +134,25 @@ export default {
       console.log(result)
       this.$refs.md.$img2Url(pos, result.imgUrl)
     },
+    // 获取所有标签
+    async getAllLabels () {
+      const result = await getAllLabel()
+      console.log("标签")
+      this.labelList = result
+    },
+    // 保存文章
     async saveArticle () {
-      console.log(this.articleTitle, this.value, this.imgUrl, this.mimetype)
-      const con = await save(this.articleTitle, this.value, this.imgUrl, this.mimetype)
-      console.log(con)
+      console.log(this.checkList)
+      const result = await save(this.articleTitle, this.condec, this.value, this.imgUrl, this.mimetype, this.checkList)
+      if (result.status == 200) {
+        this.$message({
+          message: result.message,
+          type: 'success'
+        })
+        this.$router.push("/article")
+      } else {
+        this.$message.error(result.message)
+      }
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
@@ -141,6 +174,9 @@ export default {
       this.mimetype = result.mimetype
       console.log(result)
     }
+  },
+  created () {
+    this.getAllLabels()
   },
   mounted () {
     this.changeMDHeight()
@@ -182,5 +218,10 @@ export default {
 
 .upload-card {
   margin-top: 6px;
+}
+
+.el-checkbox-group {
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

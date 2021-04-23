@@ -11,6 +11,14 @@
         <el-button type="primary" class="save-btn" @click="modify">确认修改</el-button>
       </div>
     </el-card>
+
+    <el-card class="box-card upload-card">
+      <div style="display:flex">
+        <span style="padding-right: 10px">内容摘要</span>
+        <el-input type="textarea" style="width:88%" :rows="2" placeholder="请输入内容" v-model="condec"></el-input>
+      </div>
+    </el-card>
+
     <div class="editor">
       <mavon-editor
         :toolbars="toolbars"
@@ -21,6 +29,14 @@
         ref="md"
       />
     </div>
+
+    <el-card class="box-card upload-card">
+      选择标签
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox v-for="(label,index) in labelList" :label="label.name" :key="index"></el-checkbox>
+      </el-checkbox-group>
+    </el-card>
+
     <el-card class="box-card upload-card">
       <el-upload
         class="upload-demo"
@@ -40,6 +56,7 @@
 <script>
 import { getArticle, update } from 'network/article'
 import { uploadPicture, uploadMainPicture } from 'network/file'
+import { getAllLabel } from 'network/label'
 
 export default {
   name: "AddArticle",
@@ -84,9 +101,12 @@ export default {
       value: '',
       articleTitle: '',
       articleId: this.$route.params.id,
-      fileList: [],
-      mimetype: '',
-      filename: ''
+      fileList: [], // 主图
+      mimetype: '', // 图片类型
+      imgUrl: '', // 后台传过来的主图地址
+      condec: '', // 内容摘要
+      labelList: [], // 标签列表
+      checkList: [] // 所选标签的列表
     }
   },
   methods: {
@@ -99,7 +119,7 @@ export default {
     change (value, render) {
 
     },
-    //上传图片接口pos 表示第几个图片 
+    //上传图片接口pos 表示第几个图片
     async handleEditorImgAdd (pos, file) {
       var formData = new FormData()
       formData.append('picture', file)
@@ -113,18 +133,28 @@ export default {
     },
     async getArticle () {
       const { result } = await getArticle(this.articleId)
-      console.log('----返回的数据----')
       this.articleTitle = result[0].title
       this.value = result[0].content
+      this.condec = result[0].condec
+      this.filename = result[0].image
+      for (let item of result[0].labels) {
+        this.checkList.push(item.name)
+      }
+      console.log(this.checkList)
       if (result[0].image) {
         const itemImg = { name: result[0].image, url: `http://localhost:8888/article/theme/${result[0].image}` }
         this.fileList.push(itemImg)
       }
       console.log(result)
     },
+    async getAllLabels () {
+      const result = await getAllLabel()
+      console.log("标签")
+      this.labelList = result
+    },
     async modify () {
-      console.log(this.articleTitle, this.value, this.filename, this.mimetype)
-      const result = await update(this.articleId, this.articleTitle, this.value, this.filename, this.mimetype)
+      console.log(this.articleTitle, this.condec, this.value, this.filename, this.mimetype)
+      const result = await update(this.articleId, this.articleTitle, this.condec, this.value, this.filename, this.mimetype)
       console.log(result)
       if (result.status == 200) {
         this.$message({
@@ -156,6 +186,7 @@ export default {
   },
   created () {
     this.getArticle()
+    this.getAllLabels()
   },
   mounted () {
     this.changeMDHeight()
@@ -196,5 +227,10 @@ export default {
 }
 .article-title-inp {
   width: 450px;
+}
+
+.el-checkbox-group {
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

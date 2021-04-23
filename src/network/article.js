@@ -14,26 +14,29 @@ export function getArticle (id) {
   })
 }
 // 添加文章
-export function save (title, content, filename, mimetype) {
+export function save (title, condec, content, filename, mimetype, checkList) {
   return request({
     url: "/article/save",
     method: "post",
     data: {
       title,
+      condec,
       content,
       filename,
-      mimetype
+      mimetype,
+      checkList
     }
   })
 }
 // 更新文章
-export function update (id, title, content, filename, mimetype) {
+export function update (id, title, condec, content, filename, mimetype) {
   return request({
     url: `/article/update/${id}`,
     method: "post",
     data: {
       title,
       content,
+      condec,
       filename,
       mimetype
     }

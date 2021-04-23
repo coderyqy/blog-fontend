@@ -7,6 +7,8 @@ const Article = () => import('views/home/article/Article')
 const AddArticle = () => import('views/home/article/AddArticle')
 const ModifyArticle = () => import('views/home/article/ModifyArticle')
 
+const Comment = () => import('views/home/comment/Comment')
+
 Vue.use(VueRouter)
 
 // 解决重复点击报错
@@ -43,6 +45,11 @@ const routes = [
         path: '/modifyArticle/:id',
         name: 'ModifyArticle',
         component: ModifyArticle,
+      },
+      {
+        path: '/comment',
+        name: 'Comment',
+        component: Comment,
       }
     ]
   }
