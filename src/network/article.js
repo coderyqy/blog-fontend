@@ -29,7 +29,7 @@ export function save (title, condec, content, filename, mimetype, checkList) {
   })
 }
 // 更新文章
-export function update (id, title, condec, content, filename, mimetype) {
+export function update (id, title, condec, content, filename, mimetype, checkList) {
   return request({
     url: `/article/update/${id}`,
     method: "post",
@@ -38,7 +38,8 @@ export function update (id, title, condec, content, filename, mimetype) {
       content,
       condec,
       filename,
-      mimetype
+      mimetype,
+      checkList
     }
   })
 }

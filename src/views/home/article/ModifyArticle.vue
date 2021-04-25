@@ -137,8 +137,11 @@ export default {
       this.value = result[0].content
       this.condec = result[0].condec
       this.filename = result[0].image
-      for (let item of result[0].labels) {
-        this.checkList.push(item.name)
+      console.log(result[0].labels)
+      if (result[0].labels) {
+        for (let item of result[0].labels) {
+          this.checkList.push(item.name)
+        }
       }
       console.log(this.checkList)
       if (result[0].image) {
@@ -153,8 +156,7 @@ export default {
       this.labelList = result
     },
     async modify () {
-      console.log(this.articleTitle, this.condec, this.value, this.filename, this.mimetype)
-      const result = await update(this.articleId, this.articleTitle, this.condec, this.value, this.filename, this.mimetype)
+      const result = await update(this.articleId, this.articleTitle, this.condec, this.value, this.filename, this.mimetype, this.checkList)
       console.log(result)
       if (result.status == 200) {
         this.$message({
