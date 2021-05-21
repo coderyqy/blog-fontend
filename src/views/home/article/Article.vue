@@ -56,7 +56,7 @@ export default {
       downloadData: {
         url: 'http://www.baidu.com'
       },
-      input: "23156",
+      input: "",
       options: [{
         value: '选项1',
         label: '黄金糕'
@@ -99,7 +99,8 @@ export default {
       } else {
         this.$message.error(result.message)
       }
-    }
+    },
+
   },
   created () {
     this.getAllArticle()

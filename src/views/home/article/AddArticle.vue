@@ -1,9 +1,11 @@
 <template>
   <div class="add-article">
-    <div></div>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/article' }">文章管理</el-breadcrumb-item>
+      <el-breadcrumb-item>添加文章</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card class="box-card">
       <div class="top-card">
-        <el-button class="back-btn" @click="$router.go(-1)">返回</el-button>
         <div class="article-title">
           <span>文章标题</span>
           <el-input v-model="articleTitle" class="article-title-inp" placeholder="请输入内容"></el-input>
@@ -144,6 +146,7 @@ export default {
     async saveArticle () {
       console.log(this.checkList)
       const result = await save(this.articleTitle, this.condec, this.value, this.imgUrl, this.mimetype, this.checkList)
+      console.log(result)
       if (result.status == 200) {
         this.$message({
           message: result.message,
@@ -187,7 +190,7 @@ export default {
 <style scoped>
 .add-article {
   margin: 14px;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 .editor {
@@ -206,7 +209,6 @@ export default {
   display: flex;
   width: 550px;
   line-height: 32px;
-  margin-left: 100px;
 }
 .article-title > span {
   padding-right: 6px;

@@ -36,13 +36,12 @@ export default {
   name: "adminLogin",
   data () {
     return {
-      uname: '李四',
-      password: '123456'
+      uname: '',
+      password: ''
     }
   },
   methods: {
     async login () {
-      console.log(this.uname, this.password)
       const res = await login(this.uname, this.password)
       console.log(res)
       if (res.status == 400) {

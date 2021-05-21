@@ -1,26 +1,5 @@
 <template>
   <div id="article">
-    <!-- <div class="search">
-      <div class="search-item">
-        <el-select v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </div>
-      <div class="search-item">
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
-      </div>
-      <div class="search-item">
-        <el-button type="danger">查询</el-button>
-      </div>
-      <div class="search-item" style="margin-left: auto; margin-right:20px">
-        <el-button type="primary" @click="$router.push('/addArticle')">添加</el-button>
-      </div>
-    </div>-->
     <div class="main">
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="commentuser.name" label="访客名" width="180"></el-table-column>
@@ -45,6 +24,8 @@ import vueQr from 'vue-qr'
 
 import { getAllComment, deleteComment } from 'network/comment'
 
+import { message, replyMessage, getMessage } from 'network/message'
+
 export default {
   name: "Comment",
   data () {
@@ -58,10 +39,13 @@ export default {
     vueQr
   },
   methods: {
-    async getAllComment () { // 获取所有文章
-      const result = await getAllComment()
-      this.tableData = result
+    // 获取留言
+    async getMessageList () {
+      const result = await getMessage()
       console.log(result)
+      if (result) {
+        this.tableData = result
+      }
     },
     async deleteArticle (id) {
       console.log(id)
@@ -116,7 +100,7 @@ export default {
     },
   },
   created () {
-    this.getAllComment()
+    this.getMessageList()
   }
 }
 </script>

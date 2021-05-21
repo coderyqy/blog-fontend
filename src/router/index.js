@@ -9,6 +9,8 @@ const ModifyArticle = () => import('views/home/article/ModifyArticle')
 
 const Comment = () => import('views/home/comment/Comment')
 
+const Message = () => import('views/home/message/Message')
+
 Vue.use(VueRouter)
 
 // 解决重复点击报错
@@ -50,6 +52,11 @@ const routes = [
         path: '/comment',
         name: 'Comment',
         component: Comment,
+      },
+      {
+        path: '/message',
+        name: 'Message',
+        component: Message,
       }
     ]
   }

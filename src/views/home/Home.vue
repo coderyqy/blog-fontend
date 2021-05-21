@@ -35,9 +35,13 @@
                     <i class="el-icon-menu"></i>
                     <span slot="title">评论管理</span>
                   </el-menu-item>
-                  <el-menu-item index="4">
+                  <el-menu-item index="4" @click="$router.push('/message')">
                     <i class="el-icon-menu"></i>
-                    <span slot="title">聊天室</span>
+                    <span slot="title">留言管理</span>
+                  </el-menu-item>
+                  <el-menu-item index="5">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">用户管理</span>
                   </el-menu-item>
                 </el-menu>
               </el-col>
