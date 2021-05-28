@@ -1,26 +1,8 @@
 <template>
   <div id="article">
-    <!-- <div class="search">
-      <div class="search-item">
-        <el-select v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </div>
-      <div class="search-item">
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
-      </div>
-      <div class="search-item">
-        <el-button type="danger">查询</el-button>
-      </div>
-      <div class="search-item" style="margin-left: auto; margin-right:20px">
-        <el-button type="primary" @click="$router.push('/addArticle')">添加</el-button>
-      </div>
-    </div>-->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item>评论管理</el-breadcrumb-item>
+    </el-breadcrumb>
     <div class="main">
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="commentuser.name" label="访客名" width="180"></el-table-column>

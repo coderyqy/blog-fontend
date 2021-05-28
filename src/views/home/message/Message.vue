@@ -1,5 +1,8 @@
 <template>
   <div id="article">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item>留言管理</el-breadcrumb-item>
+    </el-breadcrumb>
     <div class="main">
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="commentuser.name" label="访客名" width="180"></el-table-column>

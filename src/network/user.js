@@ -21,3 +21,18 @@ export function login (name, password) {
     }
   })
 }
+
+// 获取所有的用户
+export function getAllUser () {
+  return request({
+    url: "/user/ulist",
+    method: "get",
+  })
+}
+
+export function deleteUser (id) {
+  return request({
+    url: `/user/deleteUser/${id}`,
+    method: "get",
+  })
+}
