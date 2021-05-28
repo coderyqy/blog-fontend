@@ -8,5 +8,7 @@ module.exports = {
         views: "@/views"
       }
     }
-  }
+  },
+  // 输出路径：https://cli.vuejs.org/zh/config/#outputdir
+  outputDir: "admin"
 }
