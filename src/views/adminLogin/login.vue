@@ -3,9 +3,7 @@
     <div class="container">
       <el-card>
         <div class="box">
-          <div class="box-left">
-            <img src="@/assets/image/loginBanner.png" alt />
-          </div>
+          <h2>后台管理系统</h2>
           <div class="box-right">
             <div class="item">
               <el-input placeholder="请输入用户名" prefix-icon="el-icon-user" v-model="uname"></el-input>
@@ -45,11 +43,17 @@ export default {
       const res = await login(this.uname, this.password)
       console.log(res)
       if (res.status == 400) {
-        alert(res.msg)
+        this.$message({
+          message: res.msg,
+          type: 'error'
+        })
         return
       }
       if (res.status == 404) {
-        alert(res.msg)
+        this.$message({
+          message: res.msg,
+          type: 'error'
+        })
         return
       }
       // 将后端返回的用户登录状态放到VueX容器中
@@ -68,11 +72,12 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background-image: url('../../assets/image/adminLgBg3.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-color: rgb(53, 64, 83);
 }
-
+h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 .container {
   position: absolute;
   top: 0;
@@ -80,19 +85,15 @@ export default {
   right: 0;
   bottom: 0;
   margin: auto;
-  width: 600px;
+  width: 300px;
   height: 300px;
   border-radius: 10px;
   text-align: center;
 }
 .el-card {
   height: 100%;
-  padding-top: 50px;
 }
 
-.box {
-  display: flex;
-}
 .box-left {
   width: 300px;
 }
@@ -102,17 +103,6 @@ export default {
 .box-right {
   flex: 1;
   position: relative;
-  padding-left: 20px;
-}
-.box-right::after {
-  position: absolute;
-  left: -5px;
-  top: 0;
-  display: block;
-  content: '';
-  width: 1px;
-  height: 200px;
-  background: rgb(214, 214, 214);
 }
 .box-right .item {
   margin-bottom: 20px;
