@@ -63,6 +63,9 @@ export default {
 
       this.$router.push('/home')
     }
+  },
+  created () {
+    window.console.log('虽不能至\r\n心向往之\r\n挺励志的一句话\r\n\r\n\r\n%cfollow me %c https://github.com/coderyqy', 'color:red', 'color:green')
   }
 }
 </script>
