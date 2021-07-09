@@ -22,6 +22,11 @@ module.exports = {
         }),
       ]
       : [],
+    // CDN配置 
+    externals: {
+      'vue': 'Vue',
+      'element-ui': 'ELEMENT'
+    }
   },
   // vue-cli
   // https://cli.vuejs.org/zh/config/#publicpath
@@ -31,4 +36,5 @@ module.exports = {
   // 输出路径：https://cli.vuejs.org/zh/config/#outputdir
   outputDir: "admin",
   productionSourceMap: false
+  
 }

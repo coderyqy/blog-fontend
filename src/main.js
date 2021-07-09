@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
@@ -10,7 +10,7 @@ import router from './router'
 import store from './store'
 
 
-Vue.use(ElementUI, { size: 'small', zIndex: 3000 })
+// Vue.use(ElementUI, { size: 'small', zIndex: 3000 })
 
 Vue.use(mavonEditor)
 
